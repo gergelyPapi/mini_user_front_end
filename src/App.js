@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {MiniUserProvider} from "./Storage/MiniUserProvider";
 import MiniUserAppBar from "./Components/MiniUserAppBar"
+import AdminActionTabs from "./Components/AdminActionTabs";
 
 class App extends Component {
   render() {
@@ -8,6 +9,7 @@ class App extends Component {
         <MiniUserProvider>
           <div className="App">
             <MiniUserAppBar/>
+            <AdminActionTabs/>
           </div>
         </MiniUserProvider>
     );
