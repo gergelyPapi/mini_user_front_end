@@ -6,7 +6,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/es/Button/Button";
 import {MiniUserConsumer} from "../Storage/MiniUserProvider";
-import RegistrationDialog from "./RegistrationDialog"
 
 const styles = {
     root: {
@@ -29,7 +28,6 @@ const appBarContent = (
             return isLoggedIn ? (
                 <React.Fragment>
                     {"Welcome " + userName + " | Your role is: " + userRole}
-                    <RegistrationDialog/>
                     <Button variant="raised" onClick={logOut}>Logout</Button>
                 </React.Fragment>
             ) : (

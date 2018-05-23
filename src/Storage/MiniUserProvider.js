@@ -27,11 +27,21 @@ export class MiniUserProvider extends Component {
     };
 
     registration = (name, email, password) => {
-        axios.post('http://localhost:8080/user/registration', { userName: name, email: email, password: password })
+        axios.post('http://localhost:8080/user/registration', { userName: name, userEmail: email, password: password })
+            .then((response) => {
+                if (response.status === 200) {
+                    console.log("Registration:" + response);
+                } else {
+                    console.log("BAD BAD BAD")
+                }
+            }).catch(error => console.log("Error happened" + error));
+    };
+
+    deleteUser = (userId) => {
+        axios.get('http://localhost:8080/delete_user/' + userId)
             .then((response) => {
                 if (response.status === 200) {
                     console.log(response);
-                    this.setState ({userName: response.data.userName});
                 } else {
                     console.log("BAD BAD BAD")
                 }
@@ -46,6 +56,7 @@ export class MiniUserProvider extends Component {
                     isLoggedIn: this.state.isLoggedIn,
                     userRole: this.state.userRole,
                     registration: this.registration,
+                    deleteUser: this.deleteUser,
                     logIn: this.logIn,
                     logOut: this.logOut
                 }

@@ -7,6 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from "@material-ui/core/es/Button/Button";
 import axios from "axios/index";
+import {MiniUserConsumer} from "../Storage/MiniUserProvider";
 
 const styles = theme => ({
     root: {
@@ -38,39 +39,61 @@ class UserTable extends React.Component {
                 } else {
                     console.log("Other than 200 status code")
                 }
-                console.log(this.state.userList)
             }).catch(error => console.log(error));
     }
 
-    render() {
+    deleteEventFunction(userId) {
+        function isUserHasId(user) {
+            return user.id !== userId;
+        }
+        var newList = this.state.userList.filter(isUserHasId);
+        this.setState({userList: newList});
+    }
 
+    render() {
         return (
-            <Paper>
-                <Table>
-                    <TableHead>
-                        <TableRow style={styles.text}>
-                            <TableCell>User Name</TableCell>
-                            <TableCell>User E-mail Address</TableCell>
-                            <TableCell>User Password</TableCell>
-                            <TableCell>Delete</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody >
-                        {this.state.userList.map(user => {
-                            return (
-                                <TableRow key={user.id} style={styles.text}>
-                                    <TableCell component="th" scope="row">
-                                        {user.userName}
-                                    </TableCell>
-                                    <TableCell>{user.userEmail}</TableCell>
-                                    <TableCell>{user.password}</TableCell>
-                                    <TableCell><Button>X</Button></TableCell>
-                                </TableRow>
-                            );
-                        })}
-                    </TableBody>
-                </Table>
-            </Paper>
+            <MiniUserConsumer>
+                {(value) => {
+                    const { deleteUser } = value;
+
+                    return (
+                        <Paper>
+                            <Table>
+                                <TableHead>
+                                    <TableRow style={styles.text}>
+                                        <TableCell>User Id</TableCell>
+                                        <TableCell>User Name</TableCell>
+                                        <TableCell>User E-mail Address</TableCell>
+                                        <TableCell>Delete</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody >
+                                    {this.state.userList.map(user => {
+                                        return (
+                                            <TableRow key={user.id} style={styles.text}>
+                                                <TableCell component="th" scope="row">
+                                                    {user.id}
+                                                </TableCell>
+                                                <TableCell>{user.userName}</TableCell>
+                                                <TableCell>{user.userEmail}</TableCell>
+                                                <TableCell>
+                                                    <Button color="primary"
+                                                            onClick={ (event) => {
+                                                                deleteUser(user.id);
+                                                                this.deleteEventFunction(user.id); }}>
+                                                        Delete User
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        );
+                                    })}
+                                </TableBody>
+                            </Table>
+
+                        </Paper>
+                    )
+                }}
+            </MiniUserConsumer>
         );
     }
 }

@@ -5,12 +5,9 @@ import {MiniUserConsumer} from "../Storage/MiniUserProvider";
 import Paper from "@material-ui/core/es/Paper/Paper";
 
 const style = {
-    dialogContent: {
-        textAlign: 'center',
-        paddingTop: 30
-    },
-    buttonStyle: {
-        margin: '1%'
+    formAreaStyle: {
+        margin: 'auto',
+        width: '50%',
     }
 };
 
@@ -74,7 +71,7 @@ export default class RegistrationForm extends React.Component {
                     const { registration } = value;
 
                     return (
-                        <div>
+                        <div style={style.formAreaStyle}>
                             <Paper>
                                 <div className={"TextFieldArea"}>
                                     <TextField
@@ -106,13 +103,10 @@ export default class RegistrationForm extends React.Component {
                                     />
                                 </div>
                                 <Button color={'primary'}
-                                        onClick={(event) => {
+                                        onClick={() => {
                                             registration(this.state.userName, this.state.email, this.state.password)}
                                         }>
                                 Registration
-                                </Button>
-                                <Button onClick={this.handleClose} color="primary">
-                                    Cancel
                                 </Button>
                             </Paper>
                         </div>
