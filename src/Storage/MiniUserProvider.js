@@ -9,26 +9,24 @@ export class MiniUserProvider extends Component {
         isLoggedIn: false,
         userRole: null,
         userList: [],
-        snackOpen: false
+        snackDeleteOpen: false,
+        snackLoginErrorOpen: false,
     };
 
     componentWillMount () {
         axios.get('http://localhost:8080/users')
             .then((response) => {
-                if (response.status === 200) {
-                    this.setState({userList: response.data})
-                } else {
-                    console.log("Other than 200 status code")
-                }
-            }).catch(error => console.log(error));
+                this.setState({userList: response.data})
+            }).catch(error => console.log("Error happened" + error));
     }
 
     logIn = (name, password) => {
-        this.setState (
-            {userName: "Admin",
-                isLoggedIn: true,
-                userRole: "Admin"
-            });
+        axios.post('http://localhost:8080/login', { userName: name, password: password })
+            .then((response) => {
+                this.setState({userName: response.data.userName,
+                    userRole: response.data.userRole,
+                    isLoggedIn: true})
+            }).catch( (error) => {this.openLoginErrorSnack()});
     };
 
     logOut = () => {
@@ -48,33 +46,30 @@ export class MiniUserProvider extends Component {
     };
 
     registration = (name, email, password) => {
-        axios.post('http://localhost:8080/user/registration', { userName: name, userEmail: email, password: password })
+        axios.post('http://localhost:8080/registration', { userName: name, userEmail: email, password: password })
             .then((response) => {
-                if (response.status === 200) {
-                    this.setState({userList: response.data})
-                } else {
-                    console.log("BAD BAD BAD")
-                }
+                this.setState({userList: response.data})
             }).catch(error => console.log("Error happened" + error));
     };
 
     deleteUser = (userId) => {
         axios.get('http://localhost:8080/delete_user/' + userId)
             .then((response) => {
-                if (response.status === 200) {
-                    console.log(response);
-                } else {
-                    console.log("BAD BAD BAD")
-                }
+                console.log(response);
             }).catch(error => console.log("Error happened" + error));
         this.refreshUserList();
-        this.openSnack();
+        this.openDeleteSnack();
     };
 
-    openSnack = () => {
-        console.log("HALLOOOOOOOOOO!!!");
-        this.setState({snackOpen: true});
-        setTimeout(function() { this.setState({snackOpen: false}); }.bind(this), 3000);
+    openDeleteSnack = () => {
+        this.setState({snackDeleteOpen: true});
+        setTimeout(function() { this.setState({snackDeleteOpen: false}); }.bind(this), 3000);
+    };
+
+    openLoginErrorSnack = () => {
+        console.log("ERORIRR")
+        this.setState({snackLoginErrorOpen: true});
+        setTimeout(function() { this.setState({snackLoginErrorOpen: false}); }.bind(this), 3000);
     };
 
 
@@ -86,11 +81,11 @@ export class MiniUserProvider extends Component {
                     isLoggedIn: this.state.isLoggedIn,
                     userRole: this.state.userRole,
                     userList: this.state.userList,
-                    snackOpen: this.state.snackOpen,
+                    snackDeleteOpen: this.state.snackDeleteOpen,
+                    snackLoginErrorOpen: this.state.snackLoginErrorOpen,
                     registration: this.registration,
                     deleteUser: this.deleteUser,
                     refreshUserList: this.refreshUserList,
-                    openSnack: this.openSnack,
                     logIn: this.logIn,
                     logOut: this.logOut
                 }
