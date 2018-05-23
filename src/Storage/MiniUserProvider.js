@@ -6,21 +6,23 @@ const MiniUserContext = React.createContext();
 export class MiniUserProvider extends Component {
     state = {
         userName: null,
-        isLoggedIn: false
+        isLoggedIn: false,
+        userRole: null
     };
 
     logIn = (name, password) => {
         this.setState (
             {userName: "Admin",
-                isLoggedIn: true
+                isLoggedIn: true,
+                userRole: "Admin"
             });
-        console.log(this.state.isLoggedIn)
     };
 
     logOut = () => {
         this.setState (
             {userName: null,
-                isLoggedIn: false
+                isLoggedIn: false,
+                userRole: null
             });
     };
 
@@ -36,14 +38,13 @@ export class MiniUserProvider extends Component {
             }).catch(error => console.log("Error happened" + error));
     };
 
-
-
     render () {
         return (
             <MiniUserContext.Provider value = {
                 {
                     userName: this.state.userName,
                     isLoggedIn: this.state.isLoggedIn,
+                    userRole: this.state.userRole,
                     registration: this.registration,
                     logIn: this.logIn,
                     logOut: this.logOut

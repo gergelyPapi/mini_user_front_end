@@ -4,11 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import Button from "@material-ui/core/es/Button/Button";
 import {MiniUserConsumer} from "../Storage/MiniUserProvider";
 import RegistrationDialog from "./RegistrationDialog"
-import Avatar from "@material-ui/core/es/Avatar/Avatar";
 
 const styles = {
     root: {
@@ -26,11 +24,11 @@ const styles = {
 const appBarContent = (
     <MiniUserConsumer>
         {(value) => {
-            const { userName, isLoggedIn, logIn, logOut } = value;
+            const { userName, isLoggedIn, logIn, logOut, userRole } = value;
 
             return isLoggedIn ? (
                 <React.Fragment>
-                    {"Welcome " + userName}
+                    {"Welcome " + userName + " | Your role is: " + userRole}
                     <RegistrationDialog/>
                     <Button variant="raised" onClick={logOut}>Logout</Button>
                 </React.Fragment>
