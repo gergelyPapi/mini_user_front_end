@@ -7,8 +7,20 @@ export class MiniUserProvider extends Component {
     state = {
         userName: null,
         isLoggedIn: false,
-        userRole: null
+        userRole: null,
+        userList: []
     };
+
+    componentWillMount () {
+        axios.get('http://localhost:8080/users')
+            .then((response) => {
+                if (response.status === 200) {
+                    this.setState({userList: response.data})
+                } else {
+                    console.log("Other than 200 status code")
+                }
+            }).catch(error => console.log(error));
+    }
 
     logIn = (name, password) => {
         this.setState (
@@ -26,11 +38,19 @@ export class MiniUserProvider extends Component {
             });
     };
 
+    refreshUserList = (userId) => {
+        function isUserHasId(user) {
+            return user.id !== userId;
+        }
+        var newList = this.state.userList.filter(isUserHasId);
+        this.setState({userList: newList});
+    };
+
     registration = (name, email, password) => {
         axios.post('http://localhost:8080/user/registration', { userName: name, userEmail: email, password: password })
             .then((response) => {
                 if (response.status === 200) {
-                    console.log("Registration:" + response);
+                    this.setState({userList: response.data})
                 } else {
                     console.log("BAD BAD BAD")
                 }
@@ -46,7 +66,9 @@ export class MiniUserProvider extends Component {
                     console.log("BAD BAD BAD")
                 }
             }).catch(error => console.log("Error happened" + error));
+        this.refreshUserList();
     };
+
 
     render () {
         return (
@@ -55,8 +77,10 @@ export class MiniUserProvider extends Component {
                     userName: this.state.userName,
                     isLoggedIn: this.state.isLoggedIn,
                     userRole: this.state.userRole,
+                    userList: this.state.userList,
                     registration: this.registration,
                     deleteUser: this.deleteUser,
+                    refreshUserList: this.refreshUserList,
                     logIn: this.logIn,
                     logOut: this.logOut
                 }
