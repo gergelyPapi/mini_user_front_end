@@ -8,6 +8,8 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import UserTable from "./UserTable";
 import RegistrationForm from "./RegistrationForm";
+import {MiniUserConsumer} from "../Storage/MiniUserProvider";
+import Paper from "@material-ui/core/es/Paper/Paper";
 
 function TabContainer({ children, dir }) {
     return (
@@ -47,29 +49,39 @@ class AdminActionTabs extends React.Component {
         const { classes, theme } = this.props;
 
         return (
-            <div className={classes.root}>
-                <AppBar position="static" color="default">
-                    <Tabs
-                        value={this.state.value}
-                        onChange={this.handleChange}
-                        indicatorColor="secondary"
-                        textColor="secondary"
-                        fullWidth
-                        centered
-                    >
-                        <Tab label="User List" />
-                        <Tab label="User Registration" />
-                    </Tabs>
-                </AppBar>
-                <SwipeableViews
-                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                    index={this.state.value}
-                    onChangeIndex={this.handleChangeIndex}
-                >
-                    <TabContainer dir={theme.direction}><UserTable/></TabContainer>
-                    <TabContainer dir={theme.direction}><RegistrationForm/></TabContainer>
-                </SwipeableViews>
-            </div>
+            <MiniUserConsumer>
+                {(value) => {
+                    const { isLoggedIn, userRole } = value;
+
+                    return isLoggedIn && userRole == 'Admin' ? (
+                        <div className={classes.root}>
+                            <AppBar position="static" color="default">
+                                <Tabs
+                                    value={this.state.value}
+                                    onChange={this.handleChange}
+                                    indicatorColor="secondary"
+                                    textColor="secondary"
+                                    fullWidth
+                                    centered
+                                >
+                                    <Tab label="User List" />
+                                    <Tab label="User Registration" />
+                                </Tabs>
+                            </AppBar>
+                            <SwipeableViews
+                                axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+                                index={this.state.value}
+                                onChangeIndex={this.handleChangeIndex}
+                            >
+                                <TabContainer dir={theme.direction}><UserTable/></TabContainer>
+                                <TabContainer dir={theme.direction}><RegistrationForm/></TabContainer>
+                            </SwipeableViews>
+                        </div>
+                    ) : (
+                        <Paper> Site is under construction please visit back later!</Paper>
+                    )
+                }}
+            </MiniUserConsumer>
         );
     }
 }

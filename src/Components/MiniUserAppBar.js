@@ -13,11 +13,7 @@ const styles = {
     },
     flex: {
         flex: 1,
-    },
-    menuButton: {
-        marginLeft: -12,
-        marginRight: 20,
-    },
+    }
 };
 
 const appBarContent = (
@@ -25,7 +21,7 @@ const appBarContent = (
         {(value) => {
             const { userName, isLoggedIn, logIn, logOut, userRole } = value;
 
-            return isLoggedIn ? (
+            return isLoggedIn && userRole == 'Admin' ? (
                 <React.Fragment>
                     {"Welcome " + userName + " | Your role is: " + userRole}
                     <Button variant="raised" onClick={logOut}>Logout</Button>
