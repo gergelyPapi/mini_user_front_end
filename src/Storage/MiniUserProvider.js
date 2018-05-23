@@ -8,7 +8,8 @@ export class MiniUserProvider extends Component {
         userName: null,
         isLoggedIn: false,
         userRole: null,
-        userList: []
+        userList: [],
+        snackOpen: false
     };
 
     componentWillMount () {
@@ -67,6 +68,13 @@ export class MiniUserProvider extends Component {
                 }
             }).catch(error => console.log("Error happened" + error));
         this.refreshUserList();
+        this.openSnack();
+    };
+
+    openSnack = () => {
+        console.log("HALLOOOOOOOOOO!!!");
+        this.setState({snackOpen: true});
+        setTimeout(function() { this.setState({snackOpen: false}); }.bind(this), 3000);
     };
 
 
@@ -78,9 +86,11 @@ export class MiniUserProvider extends Component {
                     isLoggedIn: this.state.isLoggedIn,
                     userRole: this.state.userRole,
                     userList: this.state.userList,
+                    snackOpen: this.state.snackOpen,
                     registration: this.registration,
                     deleteUser: this.deleteUser,
                     refreshUserList: this.refreshUserList,
+                    openSnack: this.openSnack,
                     logIn: this.logIn,
                     logOut: this.logOut
                 }
