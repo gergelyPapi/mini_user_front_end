@@ -9,14 +9,6 @@ import Typography from '@material-ui/core/Typography';
 import UserTable from "./UserTable";
 import RegistrationForm from "./RegistrationForm";
 
-const customStyles = {
-    tabContainer: {
-        width: '70%',
-        marginTop: '5 %',
-        position: 'center',
-    }
-};
-
 function TabContainer({ children, dir }) {
     return (
         <Typography component="div" dir={dir} style={{ padding: 8 * 3 }}>
@@ -33,8 +25,7 @@ TabContainer.propTypes = {
 const styles = theme => ({
     root: {
         backgroundColor: theme.palette.background.paper,
-        marginTop: '4 %',
-        width: '93%',
+        width: '100%',
         margin: 'auto'
     },
 });
@@ -56,7 +47,7 @@ class AdminActionTabs extends React.Component {
         const { classes, theme } = this.props;
 
         return (
-            <div style={customStyles} className={classes.root}>
+            <div className={classes.root}>
                 <AppBar position="static" color="default">
                     <Tabs
                         value={this.state.value}

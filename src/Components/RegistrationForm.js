@@ -68,7 +68,7 @@ export default class RegistrationForm extends React.Component {
         return (
             <MiniUserConsumer>
                 {(value) => {
-                    const { registration } = value;
+                    const { registration, refreshUserList } = value;
 
                     return (
                         <div style={style.formAreaStyle}>
@@ -103,8 +103,9 @@ export default class RegistrationForm extends React.Component {
                                     />
                                 </div>
                                 <Button color={'primary'}
-                                        onClick={() => {
-                                            registration(this.state.userName, this.state.email, this.state.password)}
+                                        onClick={ () => {
+                                            registration(this.state.userName, this.state.email, this.state.password);
+                                        }
                                         }>
                                 Registration
                                 </Button>
