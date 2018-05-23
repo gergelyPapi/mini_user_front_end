@@ -17,26 +17,47 @@ class InfoSnackbars extends React.Component {
         return (
             <MiniUserConsumer>
                 {(value) => {
-                    const { snackOpen } = value;
+                    const { snackDeleteOpen, snackLoginErrorOpen } = value;
 
-                    return snackOpen ? (
-                        <div>
-                            <Snackbar
-                                anchorOrigin={{
-                                    vertical: 'bottom',
-                                    horizontal: 'left',
-                                }}
-                                open={snackOpen}
-                                autoHideDuration={2000}
-                                ContentProps={{
-                                    'aria-describedby': 'message-id',
-                                }}
-                                message={<span id="message-id"> User Deleted </span>}
-                            />
-                        </div>
-                    ) : (
-                        null
-                    )
+                    if( snackDeleteOpen) {
+                        return (
+
+                            <div>
+                                <Snackbar
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'center',
+                                    }}
+                                    open={snackDeleteOpen}
+                                    autoHideDuration={2000}
+                                    ContentProps={{
+                                        'aria-describedby': 'message-id',
+                                    }}
+                                    message={<span id="message-id">User successfully deleted</span>}
+                                />
+                            </div>
+                        )
+                    } else if (snackLoginErrorOpen){
+                        return (
+
+                            <div>
+                                <Snackbar
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'center',
+                                    }}
+                                    open={snackLoginErrorOpen}
+                                    autoHideDuration={2000}
+                                    ContentProps={{
+                                        'aria-describedby': 'message-id',
+                                    }}
+                                    message={<span id="message-id">Your credentials were not correct please try again!</span>}
+                                />
+                            </div>
+                        )
+                    } else {
+                        return null;
+                    }
                 }}
             </MiniUserConsumer>
         );

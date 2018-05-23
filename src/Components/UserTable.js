@@ -7,7 +7,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from "@material-ui/core/es/Button/Button";
 import {MiniUserConsumer} from "../Storage/MiniUserProvider";
-import { handleClick } from "./InfoSnackbars"
 
 const styles = theme => ({
     root: {
