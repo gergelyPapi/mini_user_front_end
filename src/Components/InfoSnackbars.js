@@ -51,7 +51,7 @@ class InfoSnackbars extends React.Component {
                                     ContentProps={{
                                         'aria-describedby': 'message-id',
                                     }}
-                                    message={<span id="message-id">Inputs are were not correct please try again!</span>}
+                                    message={<span id="message-id">Inputs were not correct please try again!</span>}
                                 />
                             </div>
                         )
