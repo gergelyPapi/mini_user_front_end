@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/es/Button/Button";
 import {MiniUserConsumer} from "../Storage/MiniUserProvider";
 import LoginDialog from "./LoginDialog";
+import Paper from "@material-ui/core/es/Paper/Paper";
 
 const styles = {
     root: {
@@ -20,11 +21,13 @@ const styles = {
 const appBarContent = (
     <MiniUserConsumer>
         {(value) => {
-            const { userName, isLoggedIn, logOut, userRole } = value;
+            const { userName, isLoggedIn, logOut } = value;
 
-            return isLoggedIn && userRole == 'Admin' ? (
+            return isLoggedIn ? (
                 <React.Fragment>
-                    {"Welcome " + userName + " | Your role is: " + userRole}
+                    <Typography variant="title" color="secondary">
+                        Welcome {userName}
+                    </Typography>
                     <Button variant="raised" onClick={logOut}>Logout</Button>
                 </React.Fragment>
             ) : (

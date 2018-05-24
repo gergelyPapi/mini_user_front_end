@@ -10,14 +10,14 @@ export class MiniUserProvider extends Component {
         userRole: null,
         userList: [],
         snackDeleteOpen: false,
-        snackLoginErrorOpen: false,
+        snackInputErrorOpen: false,
     };
 
     componentWillMount () {
         axios.get('http://localhost:8080/users')
             .then((response) => {
                 this.setState({userList: response.data})
-            }).catch(error => console.log("Error happened" + error));
+            }).catch(error => console.log("Error occurred" + error));
     }
 
     logIn = (name, password) => {
@@ -26,7 +26,7 @@ export class MiniUserProvider extends Component {
                 this.setState({userName: response.data.userName,
                     userRole: response.data.userRole,
                     isLoggedIn: true})
-            }).catch( (error) => {this.openLoginErrorSnack()});
+            }).catch( (error) => {this.openInputErrorSnack()});
     };
 
     logOut = () => {
@@ -45,18 +45,23 @@ export class MiniUserProvider extends Component {
         this.setState({userList: newList});
     };
 
-    registration = (name, email, password) => {
-        axios.post('http://localhost:8080/registration', { userName: name, userEmail: email, password: password })
-            .then((response) => {
-                this.setState({userList: response.data})
-            }).catch(error => console.log("Error happened" + error));
+    registration = (name, email, password, nameValidity, emailValidity, passwordValidity) => {
+        if (nameValidity && emailValidity && passwordValidity) {
+            axios.post('http://localhost:8080/registration', { userName: name, userEmail: email, password: password })
+                .then((response) => {
+                    this.setState({userList: response.data})
+                }).catch(error => console.log("Error occurred: " + error));
+        } else {
+            this.openInputErrorSnack();
+        }
+
     };
 
     deleteUser = (userId) => {
         axios.get('http://localhost:8080/delete_user/' + userId)
             .then((response) => {
                 console.log(response);
-            }).catch(error => console.log("Error happened" + error));
+            }).catch(error => console.log("Error occurred: " + error));
         this.refreshUserList();
         this.openDeleteSnack();
     };
@@ -66,12 +71,10 @@ export class MiniUserProvider extends Component {
         setTimeout(function() { this.setState({snackDeleteOpen: false}); }.bind(this), 3000);
     };
 
-    openLoginErrorSnack = () => {
-        console.log("ERORIRR")
-        this.setState({snackLoginErrorOpen: true});
-        setTimeout(function() { this.setState({snackLoginErrorOpen: false}); }.bind(this), 3000);
+    openInputErrorSnack = () => {
+        this.setState({snackInputErrorOpen: true});
+        setTimeout(function() { this.setState({snackInputErrorOpen: false}); }.bind(this), 3000);
     };
-
 
     render () {
         return (
@@ -82,7 +85,7 @@ export class MiniUserProvider extends Component {
                     userRole: this.state.userRole,
                     userList: this.state.userList,
                     snackDeleteOpen: this.state.snackDeleteOpen,
-                    snackLoginErrorOpen: this.state.snackLoginErrorOpen,
+                    snackInputErrorOpen: this.state.snackInputErrorOpen,
                     registration: this.registration,
                     deleteUser: this.deleteUser,
                     refreshUserList: this.refreshUserList,

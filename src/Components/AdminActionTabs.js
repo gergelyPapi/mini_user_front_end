@@ -53,7 +53,7 @@ class AdminActionTabs extends React.Component {
                 {(value) => {
                     const { isLoggedIn, userRole } = value;
 
-                    return isLoggedIn && userRole == 'Admin' ? (
+                    return isLoggedIn && userRole === 'Admin' ? (
                         <div className={classes.root}>
                             <AppBar position="static" color="default">
                                 <Tabs

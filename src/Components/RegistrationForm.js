@@ -20,45 +20,41 @@ export default class RegistrationForm extends React.Component {
             password: '',
             userNameValid: null,
             eMailValid: null,
-            passwordValid: null,
+            passwordValid: null
         };
     }
 
     updateUsername = (event) => {
         this.state.userName = event.target.value;
+        this.validateField("userName", event.target.value);
     };
 
     updateEmail = (event) => {
         this.state.email = event.target.value;
+        this.validateField("email", event.target.value);
     };
 
     updatePassword = (event) => {
         this.state.password = event.target.value;
+        this.validateField("password", event.target.value)
     };
 
     validateField(fieldName, value) {
         switch(fieldName) {
             case 'userName':
-                this.state.userNameValid = value.length >= 10;
+                this.state.userNameValid = value.length >= 3;
                 break;
             case 'email':
                 let validationArray = value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
                 try {
-                    if(validationArray) {
-                        this.state.emailValid = true;
-                    } else {
-                        this.state.emailValid = false;
-                    }
-                }
-                catch(err) {
-                    console.log(err.message);
-                    this.state.emailValid = false;
+                    this.state.eMailValid = validationArray.length > 0
+                } catch (error){
+                    console.log("Email format is not yet appropriate.")
                 }
                 break;
             case 'password':
-                this.state.passwordValid = value.length > 4;
+                this.state.passwordValid = value.length >= 3;
                 break;
-
             default:
                 break;
         }
@@ -68,7 +64,7 @@ export default class RegistrationForm extends React.Component {
         return (
             <MiniUserConsumer>
                 {(value) => {
-                    const { registration, refreshUserList } = value;
+                    const { registration } = value;
 
                     return (
                         <div style={style.formAreaStyle}>
@@ -104,7 +100,8 @@ export default class RegistrationForm extends React.Component {
                                 </div>
                                 <Button color={'primary'}
                                         onClick={ () => {
-                                            registration(this.state.userName, this.state.email, this.state.password);
+                                            registration(this.state.userName, this.state.email, this.state.password,
+                                                        this.state.userNameValid, this.state.eMailValid, this.state.passwordValid);
                                         }
                                         }>
                                 Registration

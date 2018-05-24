@@ -28,22 +28,20 @@ class LoginDialog extends React.Component {
     updateUsername = (event) => {
         this.state.userName = event.target.value;
         this.validateField("userName", event.target.value)
-        console.log(this.state.userNameValid)
     };
 
     updatePassword = (event) => {
         this.state.password = event.target.value;
         this.validateField("password", event.target.value)
-        console.log(this.state.passwordValid)
     };
 
     validateField(fieldName, value) {
         switch(fieldName) {
             case 'userName':
-                this.state.userNameValid = value.length >= 10;
+                this.state.userNameValid = value.length >= 3;
                 break;
             case 'password':
-                this.state.passwordValid = value.length > 4;
+                this.state.passwordValid = value.length >= 3;
                 break;
             default:
                 break;

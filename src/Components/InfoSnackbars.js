@@ -17,7 +17,7 @@ class InfoSnackbars extends React.Component {
         return (
             <MiniUserConsumer>
                 {(value) => {
-                    const { snackDeleteOpen, snackLoginErrorOpen } = value;
+                    const { snackDeleteOpen, snackInputErrorOpen } = value;
 
                     if( snackDeleteOpen) {
                         return (
@@ -37,7 +37,7 @@ class InfoSnackbars extends React.Component {
                                 />
                             </div>
                         )
-                    } else if (snackLoginErrorOpen){
+                    } else if (snackInputErrorOpen){
                         return (
 
                             <div>
@@ -46,12 +46,12 @@ class InfoSnackbars extends React.Component {
                                         vertical: 'bottom',
                                         horizontal: 'center',
                                     }}
-                                    open={snackLoginErrorOpen}
+                                    open={snackInputErrorOpen}
                                     autoHideDuration={2000}
                                     ContentProps={{
                                         'aria-describedby': 'message-id',
                                     }}
-                                    message={<span id="message-id">Your credentials were not correct please try again!</span>}
+                                    message={<span id="message-id">Inputs are were not correct please try again!</span>}
                                 />
                             </div>
                         )
